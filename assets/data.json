@@ -1,0 +1,32 @@
+[
+  {
+    "brand": "Apple",
+    "name": "Iphone 13",
+    "description": "Apple's iPhone 13 features a ceramic shield front, Super Retina XDR display with True Tone and an A15 Bionic chip. The first design change users will notice is the smaller notch. After years of using the same-sized notch to house the Face ID components, Apple has finally reduced its size by 20%."
+  },
+  {
+    "brand": "Oneplus",
+    "name": "7t",
+    "description": "The OnePlus 7T is one of the best devices OnePlus has made in years. It has some the best specs available on the market, the latest Android has to offer, and a great camera system, all for $499. Personally, I feel the 7T puts the OnePlus 7 Pro in an even weirder position than before."
+  },
+  {
+    "brand": "MI",
+    "name": "Note 4",
+    "description": "Redmi Note 4 is supercharged by Snapdragon 625, an octa-core processor chip that uses the most advanced 14nm FinFET technology."
+  },
+  {
+    "brand": "Samsung",
+    "name": "S21",
+    "description": "The Samsung Galaxy S21 specs are top-notch including a Snapdragon 888 chipset, 5G capability, 8GB RAM coupled with 128/256GB storage, and a 4000mAh battery"
+  },
+  {
+    "brand": "Apple",
+    "name": "iphone 13 max pro",
+    "description": "The brand is offering triple cameras on the backside, equipped with multifaceted features and a 12MP selfie lens. This IP68 water-resistant smartphone gets a standard battery with Fast Charging and Wireless Charging support. However, it does not have a fingerprint sensor and FM radio."
+  },
+  {
+    "brand": "Samsung",
+    "name": "S10",
+    "description": "As far as the camera is concerned, the Samsung Galaxy S10 comes with a triple camera setup on the rear and lets you click exceptional pictures. There is a 12 MP telephoto camera WITH f/2.4 aperture, a 12 MP wide-angle camera with f/1.5-2.4 aperture, and a 16 MP ultra wide camera with f/2.2 aperture."
+  }
+]
