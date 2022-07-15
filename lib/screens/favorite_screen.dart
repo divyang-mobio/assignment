@@ -12,13 +12,13 @@ class FavoriteScreen extends StatelessWidget {
       appBar: AppBar(title: const Text("Cart")),
       body: BlocBuilder<FavoriteBloc, FavoriteState>(builder: (_, state) {
         if (state is FavoriteLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator.adaptive());
         } else if (state is FavoriteLoaded) {
           return listData(state.favoriteData);
         } else if (state is FavoriteError) {
-          return const Center(child: Text('error'));
+          return const Center(child: Text('error :('));
         } else {
-          return const Center(child: Text("Not Working"));
+          return const Center(child: Text("Not Working :("));
         }
       }),
     );

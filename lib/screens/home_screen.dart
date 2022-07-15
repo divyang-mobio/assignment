@@ -34,13 +34,13 @@ class MyHomePage extends StatelessWidget {
       body: BlocBuilder<DataFetchBloc, DataFetchState>(
         builder: (_, state) {
           if (state is DataFetchLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator.adaptive());
           } else if (state is DataFetchLoaded) {
             return listData(state.data);
           } else if (state is DataFetchError) {
-            return const Center(child: Text('error'));
+            return const Center(child: Text('error :('));
           } else {
-            return const Center(child: Text("Not Working"));
+            return const Center(child: Text("Not Working :("));
           }
         },
       ),
