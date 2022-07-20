@@ -9,14 +9,3 @@ class CheckFavorite extends FavoriteEvent {
 }
 
 class GetAllDataFavorite extends FavoriteEvent {}
-// class AddDataFavorite extends FavoriteEvent {
-//   DataModel dataModel;
-//
-//   AddDataFavorite({required this.dataModel});
-// }
-//
-// class DeleteFavorite extends FavoriteEvent {
-//   int id;
-//
-//   DeleteFavorite({required this.id});
-// }

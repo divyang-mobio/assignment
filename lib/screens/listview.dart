@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../controller/favorite_bloc.dart';
 import '../model/data_model.dart';
 
-listData(List<DataModel> data) {
+listData(List<DataModel> data, bool isLocalDatabase) {
   return (data.isNotEmpty)
       ? ListView.builder(
           itemCount: data.length,
@@ -20,7 +20,10 @@ listData(List<DataModel> data) {
             child: CardData(data: data[index]),
           ),
         )
-      : const Center(child: Text('No Data in Cart'));
+      : Center(
+          child: (isLocalDatabase)
+              ? const Text('No Data in Cart')
+              : const Text('No data in Firebase'));
 }
 
 class CardData extends StatefulWidget {

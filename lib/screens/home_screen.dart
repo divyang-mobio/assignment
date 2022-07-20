@@ -36,7 +36,7 @@ class MyHomePage extends StatelessWidget {
           if (state is DataFetchLoading) {
             return const Center(child: CircularProgressIndicator.adaptive());
           } else if (state is DataFetchLoaded) {
-            return listData(state.data);
+            return listData(state.data, false);
           } else if (state is DataFetchError) {
             return const Center(child: Text('error :('));
           } else {

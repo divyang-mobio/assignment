@@ -1,29 +1,21 @@
 import '../utils/database.dart';
 import 'package:bloc/bloc.dart';
 import '../model/data_model.dart';
+import '../utils/firestore_database.dart';
 
 part 'favorite_event.dart';
 
 part 'favorite_state.dart';
 
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
-  FavoriteBloc() : super(FavoriteLoading()) {
+  final FirebaseDatabase _firebaseDatabase;
+
+  FavoriteBloc(this._firebaseDatabase) : super(FavoriteLoading()) {
     // on<AddDataFavorite>(_onAddFavorite);
     // on<DeleteFavorite>(_onDeleteFavorite);
     on<CheckFavorite>(_onCheckFavorite);
     on<GetAllDataFavorite>(_onGetAllFavorite);
   }
-
-  // void _onAddFavorite(
-  //     AddDataFavorite event, Emitter<FavoriteState> emit) async {
-  //   await DatabaseHelper.instance.add(event.dataModel);
-  //   emit(await _allFavorite());
-  // }
-  // void _onDeleteFavorite(
-  //     DeleteFavorite event, Emitter<FavoriteState> emit) async {
-  //   await DatabaseHelper.instance.delete(event.id);
-  //   emit(await _allFavorite());
-  // }
 
   void _onCheckFavorite(
       CheckFavorite event, Emitter<FavoriteState> emit) async {
@@ -31,11 +23,17 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     try {
       final check = await db.checkData(event.dataModel.name);
       (check == null)
-          ? await db.add(event.dataModel)
-          : await db.delete(check.id as int);
+          ? {
+              await db.add(event.dataModel),
+              _firebaseDatabase.addDataFirebase(event.dataModel)
+            }
+          : {
+              await db.delete(check.id as int),
+              _firebaseDatabase.deleteDataFirebase(event.dataModel.name)
+            };
       emit(await _allFavorite());
     } catch (e) {
-      emit(FavoriteError());
+      emit(FavoriteError(errorString: e.toString()));
     }
   }
 
@@ -44,12 +42,13 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     try {
       emit(await _allFavorite());
     } catch (e) {
-      emit(FavoriteError());
+      emit(FavoriteError(errorString: e.toString()));
     }
   }
 
   Future<FavoriteLoaded> _allFavorite() async {
     return FavoriteLoaded(
-        favoriteData: await DatabaseHelper.instance.allData());
+        favoriteData: await DatabaseHelper.instance.allData(),
+        fireStoreData: await _firebaseDatabase.allDataFirebase());
   }
 }

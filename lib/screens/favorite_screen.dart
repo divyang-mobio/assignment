@@ -14,7 +14,15 @@ class FavoriteScreen extends StatelessWidget {
         if (state is FavoriteLoading) {
           return const Center(child: CircularProgressIndicator.adaptive());
         } else if (state is FavoriteLoaded) {
-          return listData(state.favoriteData);
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Text("local database data :"),
+              Expanded(child: listData(state.favoriteData , true)),
+              const Text("FireStore database data"),
+              Expanded(child: listData(state.fireStoreData , false))
+            ],
+          );
         } else if (state is FavoriteError) {
           return const Center(child: Text('error :('));
         } else {

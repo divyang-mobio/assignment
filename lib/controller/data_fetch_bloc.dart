@@ -20,7 +20,7 @@ class DataFetchBloc extends Bloc<DataFetchEvent, DataFetchState> {
           dataList.map((e) => DataModel.fromJson(e)).toList();
       emit(DataFetchLoaded(data: data));
     } catch (e) {
-      emit(DataFetchError());
+      emit(DataFetchError(errorString: e.toString()));
     }
   }
 }

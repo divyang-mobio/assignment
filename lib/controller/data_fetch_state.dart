@@ -10,4 +10,8 @@ class DataFetchLoaded extends DataFetchState {
   DataFetchLoaded({required this.data});
 }
 
-class DataFetchError extends DataFetchState {}
+class DataFetchError extends DataFetchState {
+  String errorString;
+
+  DataFetchError({required this.errorString});
+}
