@@ -1,10 +1,10 @@
-import 'package:assignment/utils/firestore_database.dart';
+import 'screens/login_screen.dart';
+import 'utils/firestore_database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'controller/favorite_bloc.dart';
 import 'controller/data_fetch_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,21 +17,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<DataFetchBloc>(
-            create: (context) =>
-                DataFetchBloc()..add(GetAllData(path: "assets/data.json"))),
-        BlocProvider<FavoriteBloc>(
-            create: (context) => FavoriteBloc(FirebaseDatabase())..add(GetAllDataFavorite())),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Assignment',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+    return RepositoryProvider<FirebaseDatabase>(
+      create: (context) => FirebaseDatabase(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<DataFetchBloc>(
+              create: (context) =>
+                  DataFetchBloc()),
+          BlocProvider<FavoriteBloc>(
+              create: (context) => FavoriteBloc(
+                  RepositoryProvider.of<FirebaseDatabase>(context))),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Assignment',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: const LoginScreen(),
         ),
-        home: const MyHomePage(),
       ),
     );
   }

@@ -1,14 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../controller/favorite_bloc.dart';
 import '../model/data_model.dart';
 
-listData(List<DataModel> data, bool isLocalDatabase , bool isFavoriteScreen) {
+listData(List<DataModel> data, bool isLocalDatabase, bool isFavoriteScreen) {
   return (data.isNotEmpty)
       ? ListView.builder(
-    shrinkWrap:(isFavoriteScreen) ? true : false,
-          physics: (isFavoriteScreen) ? const NeverScrollableScrollPhysics() : null,
+          shrinkWrap: isFavoriteScreen ? true : false,
+          physics:
+              isFavoriteScreen ? const NeverScrollableScrollPhysics() : null,
           itemCount: data.length,
           itemBuilder: (context, index) => GestureDetector(
             onDoubleTap: () => BlocProvider.of<FavoriteBloc>(context).add(
@@ -24,9 +24,8 @@ listData(List<DataModel> data, bool isLocalDatabase , bool isFavoriteScreen) {
           ),
         )
       : Center(
-          child: (isLocalDatabase)
-              ? const Text('No Data in Cart')
-              : const Text('No data in Firebase'));
+          child: Text(
+              isLocalDatabase ? 'No Data in Cart' : 'No data in Firebase'));
 }
 
 class CardData extends StatefulWidget {
