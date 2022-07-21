@@ -7,12 +7,11 @@ class FirebaseDatabase {
   void addDataFirebase(DataModel dataModel) async {
     await instance
         .doc(dataModel.name)
-        .set(dataModel.toJson())
-        .whenComplete(() => print("added"));
+        .set(dataModel.toJson());
   }
 
   void deleteDataFirebase(String name) async {
-    await instance.doc(name).delete().whenComplete(() => print("delete data"));
+    await instance.doc(name).delete();
   }
 
   Future<List<DataModel>> allDataFirebase() async {

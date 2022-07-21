@@ -1,11 +1,14 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../controller/favorite_bloc.dart';
 import '../model/data_model.dart';
 
-listData(List<DataModel> data, bool isLocalDatabase) {
+listData(List<DataModel> data, bool isLocalDatabase , bool isFavoriteScreen) {
   return (data.isNotEmpty)
       ? ListView.builder(
+    shrinkWrap:(isFavoriteScreen) ? true : false,
+          physics: (isFavoriteScreen) ? const NeverScrollableScrollPhysics() : null,
           itemCount: data.length,
           itemBuilder: (context, index) => GestureDetector(
             onDoubleTap: () => BlocProvider.of<FavoriteBloc>(context).add(

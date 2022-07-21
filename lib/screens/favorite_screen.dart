@@ -14,14 +14,23 @@ class FavoriteScreen extends StatelessWidget {
         if (state is FavoriteLoading) {
           return const Center(child: CircularProgressIndicator.adaptive());
         } else if (state is FavoriteLoaded) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const Text("local database data :"),
-              Expanded(child: listData(state.favoriteData , true)),
-              const Text("FireStore database data"),
-              Expanded(child: listData(state.fireStoreData , false))
-            ],
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const Text("local database data :",
+                    style:
+                        TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 10),
+                listData(state.favoriteData, true, true),
+                const SizedBox(height: 10),
+                const Text("FireStore database data :",
+                    style:
+                        TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 10),
+                listData(state.fireStoreData, false, true)
+              ],
+            ),
           );
         } else if (state is FavoriteError) {
           return const Center(child: Text('error :('));
