@@ -1,4 +1,6 @@
-import 'screens/login_screen.dart';
+import 'screens/home_screen.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'screens/login_screen.dart';
 import 'utils/firestore_database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'controller/favorite_bloc.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await MobileAds.instance.initialize();
   runApp(const MyApp());
 }
 
@@ -23,19 +26,20 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<DataFetchBloc>(
               create: (context) =>
-                  DataFetchBloc()),
+                  DataFetchBloc()..add(GetAllData(path: "assets/data.json"))),
           BlocProvider<FavoriteBloc>(
-              create: (context) => FavoriteBloc(
-                  RepositoryProvider.of<FirebaseDatabase>(context))),
+              create: (context) =>
+                  FavoriteBloc(RepositoryProvider.of<FirebaseDatabase>(context))
+                    ..add(GetAllDataFavorite())),
         ],
         child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Assignment',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: const LoginScreen(),
-        ),
+            debugShowCheckedModeBanner: false,
+            title: 'Assignment',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            home: const MyHomePage() // LoginScreen(),
+            ),
       ),
     );
   }

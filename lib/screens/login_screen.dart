@@ -1,4 +1,3 @@
-import 'package:flutter_otp/flutter_otp.dart';
 import '../controller/data_fetch_bloc.dart';
 import '../controller/favorite_bloc.dart';
 import 'home_screen.dart';
@@ -14,7 +13,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final otp = FlutterOtp();
   final _auth = FirebaseAuth.instance;
   final TextEditingController _phoneNo = TextEditingController();
   final TextEditingController _code = TextEditingController();
