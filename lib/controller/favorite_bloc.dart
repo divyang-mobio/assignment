@@ -15,8 +15,12 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     // on<DeleteFavorite>(_onDeleteFavorite);
     on<CheckFavorite>(_onCheckFavorite);
     on<GetAllDataFavorite>(_onGetAllFavorite);
+    on<UpdateData>(_updateData);
   }
 
+  void _updateData(UpdateData event, Emitter emit) {
+    _firebaseDatabase.updateDataFirebase(event.name);
+  }
   void _onCheckFavorite(
       CheckFavorite event, Emitter<FavoriteState> emit) async {
     DatabaseHelper db = DatabaseHelper.instance;

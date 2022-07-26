@@ -1,4 +1,6 @@
+import '../model/data_model.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:shimmer/shimmer.dart';
 import '../controller/favorite_bloc.dart';
 import 'package:badges/badges.dart';
 import '../utils/google_ads.dart';
@@ -35,18 +37,12 @@ class _MyHomePageState extends State<MyHomePage> {
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
           ad.fullScreenContentCallback = FullScreenContentCallback(
-            onAdDismissedFullScreenContent: (ad) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const FavoriteScreen()));
-            },
+            onAdDismissedFullScreenContent: (ad) => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const FavoriteScreen())),
           );
-          setState(() {
-            _interstitialAd = ad;
-          });
+          setState(() => _interstitialAd = ad);
         },
-        onAdFailedToLoad: (LoadAdError error) {
-          print("error");
-        },
+        onAdFailedToLoad: (LoadAdError error) => print("error"),
       ),
     );
   }
@@ -55,11 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
     BannerAd(
             adUnitId: GoogleAds.bannerAdUnitId,
             listener: BannerAdListener(
-              onAdLoaded: (Ad ad) {
-                setState(() {
-                  _bannerAd = ad as BannerAd;
-                });
-              },
+              onAdLoaded: (Ad ad) => setState(() => _bannerAd = ad as BannerAd),
             ),
             request: const AdRequest(),
             size: AdSize.banner)
@@ -110,10 +102,18 @@ class _MyHomePageState extends State<MyHomePage> {
             BlocBuilder<DataFetchBloc, DataFetchState>(
               builder: (_, state) {
                 if (state is DataFetchLoading) {
-                  return const Center(
-                      child: CircularProgressIndicator.adaptive());
+                  return Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: listData([
+                      DataModel(
+                          brand: "loading",
+                          name: "loading",
+                          description: "loading")
+                    ], false, false, true),
+                  );
                 } else if (state is DataFetchLoaded) {
-                  return listData(state.data, false, false);
+                  return listData(state.data, false, false, false);
                 } else if (state is DataFetchError) {
                   return const Center(child: Text('error :('));
                 } else {

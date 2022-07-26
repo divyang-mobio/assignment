@@ -13,6 +13,7 @@ class DataFetchBloc extends Bloc<DataFetchEvent, DataFetchState> {
   }
 
   void _getAllData(GetAllData event, Emitter emit) async {
+    await Future.delayed(const Duration(seconds: 5));
     try {
       String dataParse = await rootBundle.loadString(event.path);
       List dataList = await json.decode(dataParse);

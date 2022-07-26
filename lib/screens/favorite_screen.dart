@@ -42,14 +42,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               _loadRewardedAd();
             },
           );
-
-          setState(() {
-            _rewardedAd = ad;
-          });
+          setState(() => _rewardedAd = ad);
         },
-        onAdFailedToLoad: (err) {
-          print('Failed to load a rewarded ad: ${err.message}');
-        },
+        onAdFailedToLoad: (err) =>
+            print('Failed to load a rewarded ad: ${err.message}'),
       ),
     );
   }
@@ -60,13 +56,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new),
-            onPressed: () {
-              _rewardedAd?.show(
-                onUserEarnedReward: (_, reward) {
-                  Navigator.pop(context);
-                },
-              );
-            },
+            onPressed: () => _rewardedAd?.show(
+              onUserEarnedReward: (_, reward) {
+                Navigator.pop(context);
+              },
+            ),
           ),
           title: const Text("Cart")),
       body: BlocBuilder<FavoriteBloc, FavoriteState>(builder: (_, state) {
@@ -81,13 +75,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                     style:
                         TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 10),
-                listData(state.favoriteData, true, true),
+                listData(state.favoriteData, true, true, false),
                 const SizedBox(height: 10),
                 const Text("FireStore database data :",
                     style:
                         TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 10),
-                listData(state.fireStoreData, false, true)
+                listData(state.fireStoreData, false, true, false)
               ],
             ),
           );
@@ -97,6 +91,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           return const Center(child: Text("Not Working :("));
         }
       }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () =>
+            BlocProvider.of<FavoriteBloc>(context).add(GetAllDataFavorite()),
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

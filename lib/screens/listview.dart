@@ -3,25 +3,32 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../controller/favorite_bloc.dart';
 import '../model/data_model.dart';
 
-listData(List<DataModel> data, bool isLocalDatabase, bool isFavoriteScreen) {
+listData(List<DataModel> data, bool isLocalDatabase, bool isFavoriteScreen,
+    bool isLoading) {
   return (data.isNotEmpty)
       ? ListView.builder(
           shrinkWrap: isFavoriteScreen ? true : false,
           physics:
               isFavoriteScreen ? const NeverScrollableScrollPhysics() : null,
-          itemCount: data.length,
-          itemBuilder: (context, index) => GestureDetector(
-            onDoubleTap: () => BlocProvider.of<FavoriteBloc>(context).add(
-              CheckFavorite(
-                dataModel: DataModel(
-                  name: data[index].name,
-                  description: data[index].description,
-                  brand: data[index].brand,
+          itemCount: isLoading ? 10 : data.length,
+          itemBuilder: (context, index) => (isLoading)
+              ? CardData(data: data.first)
+              : GestureDetector(
+                  onTap: () => (isFavoriteScreen)
+                      ? BlocProvider.of<FavoriteBloc>(context)
+                          .add(UpdateData(name: data[index].name))
+                      : {},
+                  onDoubleTap: () => BlocProvider.of<FavoriteBloc>(context).add(
+                    CheckFavorite(
+                      dataModel: DataModel(
+                        name: data[index].name,
+                        description: data[index].description,
+                        brand: data[index].brand,
+                      ),
+                    ),
+                  ),
+                  child: CardData(data: data[index]),
                 ),
-              ),
-            ),
-            child: CardData(data: data[index]),
-          ),
         )
       : Center(
           child: Text(
@@ -59,7 +66,6 @@ class _CardDataState extends State<CardData> {
           ],
         ),
         subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Description: ${widget.data.description}",
                 maxLines: (showMoreData) ? 100 : 2,
@@ -70,9 +76,7 @@ class _CardDataState extends State<CardData> {
               children: [
                 TextButton(
                     onPressed: () => showMore(),
-                    child: (showMoreData)
-                        ? const Text("show less")
-                        : const Text("show More")),
+                    child: Text(showMoreData ? "show less" : "show more")),
               ],
             )
           ],

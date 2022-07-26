@@ -1,6 +1,5 @@
-import 'screens/home_screen.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-// import 'screens/login_screen.dart';
+import 'screens/login_screen.dart';
 import 'utils/firestore_database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'controller/favorite_bloc.dart';
@@ -24,22 +23,19 @@ class MyApp extends StatelessWidget {
       create: (context) => FirebaseDatabase(),
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<DataFetchBloc>(
-              create: (context) =>
-                  DataFetchBloc()..add(GetAllData(path: "assets/data.json"))),
+          BlocProvider<DataFetchBloc>(create: (context) => DataFetchBloc()),
           BlocProvider<FavoriteBloc>(
-              create: (context) =>
-                  FavoriteBloc(RepositoryProvider.of<FirebaseDatabase>(context))
-                    ..add(GetAllDataFavorite())),
+              create: (context) => FavoriteBloc(
+                  RepositoryProvider.of<FirebaseDatabase>(context))),
         ],
         child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Assignment',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
-            home: const MyHomePage() // LoginScreen(),
-            ),
+          debugShowCheckedModeBanner: false,
+          title: 'Assignment',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: const LoginScreen(),
+        ),
       ),
     );
   }
